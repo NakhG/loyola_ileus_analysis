@@ -2,7 +2,7 @@
 
 ###Questions we're interested in
 * Does having an ileus relate to higher predisposal to any of the following:
-  * Longer length of stay
+  * Longer hospital stays
   * Myocardial infarction (heart attack)
   * Pulmonary embolism
   * Deep vein thrombosis
