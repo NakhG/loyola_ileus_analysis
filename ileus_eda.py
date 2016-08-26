@@ -18,7 +18,7 @@ sepsis or death?
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as pl
+import matplotlib.pyplot as plt
 
 import os
 
@@ -71,3 +71,53 @@ ileus_nodiag_df = ileus_df[(ileus_df[ileus_colnames] == 0).all(1)]
 100. * ileus_nodiag_df['DIED'].value_counts() / len(ileus_nodiag_df.index)
 
 #based on this, it looks like there's very little diff. at a high level between mortality rate of ileus diags and non diags
+
+#let's look at some of the comorbidities
+100. * ileus_diag_df['MI_POA'].value_counts() / len(ileus_diag_df.index)
+100. * ileus_nodiag_df['MI_POA'].value_counts() / len(ileus_nodiag_df.index)
+100. * ileus_diag_df['MI_NPOA'].value_counts() / len(ileus_diag_df.index)
+100. * ileus_nodiag_df['MI_NPOA'].value_counts() / len(ileus_nodiag_df.index)
+#small diff's in myocardial infarction
+
+
+100. * ileus_diag_df['Sepsis_NPOA'].value_counts() / len(ileus_diag_df.index)
+100. * ileus_nodiag_df['Sepsis_NPOA'].value_counts() / len(ileus_nodiag_df.index)
+#2% higher rate of sepsis npoa for ileus, less than 1% diff for poa
+
+100. * ileus_diag_df['PE_POA'].value_counts() / len(ileus_diag_df.index)
+100. * ileus_nodiag_df['PE_POA'].value_counts() / len(ileus_nodiag_df.index)
+ileus_df['PE_NPOA'].value_counts()
+ileus_df['PE_POA'].value_counts()
+#No one in the dataset has pulmonary embolism
+
+100. * ileus_diag_df['DVT_NPOA'].value_counts() / len(ileus_diag_df.index)
+100. * ileus_nodiag_df['DVT_NPOA'].value_counts() / len(ileus_nodiag_df.index)
+#1% diff. in deep vein thrombosis npoa, less for poa
+
+#do that, but way faster
+for colname in comorbid_colnames:
+    diag_col_summary = 100. * ileus_diag_df[colname].value_counts() / len(ileus_diag_df.index)
+    nodiag_col_summary = 100. * ileus_nodiag_df[colname].value_counts() / len(ileus_nodiag_df.index)
+    print("Breakdown of {} for those with ileuses".format(colname))
+    print(diag_col_summary)
+    print("Breakdown of {} for those without ileuses".format(colname))
+    print(nodiag_col_summary)
+    print("\n")
+    
+def summary_comparer(colname_list, df_1, df_2, str_1, str_2):
+    for colname in colname_list:
+        df_1_summary = 100. * df_1[colname].value_counts() / len(df_1.index)
+        df_2_summary = 100. * df_2[colname].value_counts() / len(df_2.index)
+        print("Breakdown of {} for {}".format(colname, str_1))
+        print(df_1_summary)
+        print("Breakdown of {} for {}".format(colname, str_2))
+        print(df_2_summary)
+        print("\n")
+
+#back to it: what about length of stay?
+ileus_diag_df['LOS'].describe()
+ileus_nodiag_df['LOS'].describe()
+
+ileus_diag_df['LOS'].plot.box()
+ileus_nodiag_df['LOS'].plot.box()
+
